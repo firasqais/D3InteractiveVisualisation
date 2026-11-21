@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>02 · Selections and chaining · D3 Interactive Visualisation</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <style>
+    #stage { min-height: 200px; border: 1px dashed var(--line); border-radius: 8px; }
+    #stage:empty::after { content: "#stage is empty"; display: block; padding: 80px 0; text-align: center; color: var(--ink-3); font-size: 13px; }
+    #dom { min-height: 120px; font-size: 12px; }
+  </style>
+</head>
+<body>
+<main class="page">
+  <div class="crumb"><a href="../../index.html">D3 Interactive Visualisation</a> / 02</div>
+  <h1>Big idea 1: selections and chaining</h1>
+  <p class="lead">Every D3 program starts the same way: <b>select</b> an element, <b>append</b> children to it, and set
+    their <b>attributes</b> and <b>styles</b>. Step through the code one line at a time and watch the page and the DOM change.</p>
+
+  <div class="controls">
+    <button id="next" class="active">Run next step ▶</button>
+    <button id="back">◀ Back</button>
+    <button id="reset">Reset</button>
+    <span id="step-label" style="color:var(--ink-3)"></span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <pre class="code" id="code"></pre>
+      <p id="explain" class="note"></p>
+    </div>
+    <div>
+      <div class="card">
+        <div style="font-size:13px;color:var(--ink-3);margin-bottom:6px">Output: <code>&lt;div id="stage"&gt;</code></div>
+        <div id="stage" class="chart"></div>
+      </div>
+      <div class="card">
+        <div style="font-size:13px;color:var(--ink-3);margin-bottom:6px">Live DOM inside #stage</div>
+        <pre class="code" id="dom"></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">What to notice</h2>
+    <ul>
+      <li><code>d3.select()</code> finds the <i>first</i> match for a CSS selector; <code>d3.selectAll()</code> finds them all.
+        Both return a <b>selection</b>, an object that wraps the elements.</li>
+      <li><code>.append()</code> returns a <b>new</b> selection (the child). <code>.attr()</code> and <code>.style()</code>
+        return the <b>same</b> selection, which is why you can keep chaining with dots. Read each dot as "and then".</li>
+      <li>After step 3 the circle exists in the DOM but you can't see it: its radius defaults to 0. After step 4 it is black,
+        the default fill. Always set sizes and colours explicitly.</li>
+      <li>Events use the D3 v6+ signature <code>(event, d) =&gt; …</code>. Old tutorials use <code>d3.event</code>, which no longer exists.</li>
+    </ul>
+  </div>
+
+  <nav class="pager"><a href="../01-svg-anatomy/">← 01 · SVG anatomy</a><a href="../03-data-join/">03 · The data join →</a></nav>
+</main>
+<script src="chart.js"></script>
+</body>
+</html>

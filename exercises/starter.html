@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Starter · Store Performance Explorer</title>
+  <!-- The full D3 v7 library from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; color: #1f2937; }
+    #tooltip {
+      position: fixed; pointer-events: none; background: white; border: 1px solid #ddd;
+      border-radius: 6px; padding: 6px 8px; font-size: 12px; opacity: 0;
+    }
+  </style>
+</head>
+<body>
+<h2 id="title">ACTION TITLE: state the insight, the number and the "so what"</h2>
+<div id="controls"><!-- Challenge 4: sort or filter buttons go here --></div>
+<div id="chart"></div>
+<div id="tooltip"></div>
+
+<script>
+// SPJ Retail FY2026 revenue vs target, $M (fictional teaching data)
+const data = [
+  { "store": "Mumbai",    "region": "India",     "revenue": 4.8, "target": 4.2 },
+  { "store": "Pune",      "region": "India",     "revenue": 3.1, "target": 2.8 },
+  { "store": "Bengaluru", "region": "India",     "revenue": 4.1, "target": 4.4 },
+  { "store": "Delhi",     "region": "India",     "revenue": 3.6, "target": 3.9 },
+  { "store": "Dubai",     "region": "GCC",       "revenue": 6.2, "target": 5.8 },
+  { "store": "Abu Dhabi", "region": "GCC",       "revenue": 3.9, "target": 4.3 },
+  { "store": "Doha",      "region": "GCC",       "revenue": 3.3, "target": 3.0 },
+  { "store": "Singapore", "region": "SE Asia",   "revenue": 5.4, "target": 5.6 },
+  { "store": "Jakarta",   "region": "SE Asia",   "revenue": 2.9, "target": 2.6 },
+  { "store": "KL",        "region": "SE Asia",   "revenue": 2.7, "target": 3.2 },
+  { "store": "Sydney",    "region": "Australia", "revenue": 4.5, "target": 4.7 },
+  { "store": "Melbourne", "region": "Australia", "revenue": 3.8, "target": 3.4 }
+];
+
+// ---- Structure: margin convention, scales, axes ----
+const W = 760, H = 380;
+const M = { top: 20, right: 20, bottom: 50, left: 50 };
+const w = W - M.left - M.right, h = H - M.top - M.bottom;
+
+const svg = d3.select("#chart").append("svg").attr("viewBox", [0, 0, W, H]);
+const g = svg.append("g").attr("transform", `translate(${M.left},${M.top})`);
+
+const x = d3.scaleBand().range([0, w]).padding(0.2);
+const y = d3.scaleLinear()
+  .domain([0, d3.max(data, d => Math.max(d.revenue, d.target))]).nice()
+  .range([h, 0]);
+
+const xAxis = g.append("g").attr("transform", `translate(0,${h})`);
+g.append("g").call(d3.axisLeft(y));
+// TODO: add axis titles ("Store", "Revenue ($M)")
+
+function update(rows) {
+  x.domain(rows.map(d => d.store));
+  xAxis.call(d3.axisBottom(x));
+
+  g.selectAll("rect.bar")
+    .data(rows, d => d.store)          // keyed join (object constancy)
+    .join("rect")
+    .attr("class", "bar")
+    .attr("x", d => x(d.store))
+    .attr("y", d => y(d.revenue))
+    .attr("width", x.bandwidth())
+    .attr("height", d => h - y(d.revenue))
+    .attr("fill", "#6366f1");          // TODO Challenge 1: encode performance against target
+
+  // TODO Challenge 2: value labels
+  // TODO Challenge 3: target markers (one <line> per store at y(d.target))
+  // TODO Challenge 4: tooltip with mouseover / mousemove / mouseout using (event, d)
+  // TODO Challenge 4: join(enter, update, exit) + a 300–750 ms transition
+}
+
+update(data);
+// TODO Challenge 4: buttons that call update() with sorted or filtered data
+// TODO Challenge 5: write your action title in #title
+</script>
+</body>
+</html>

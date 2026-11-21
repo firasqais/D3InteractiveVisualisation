@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>07 · Loading and shaping data · D3 Interactive Visualisation</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <div class="crumb"><a href="../../index.html">D3 Interactive Visualisation</a> / 07</div>
+  <h1>Loading and shaping data</h1>
+  <p class="lead">Real charts don't start with a hard-coded array. They load a CSV or JSON file, convert the types,
+    then reshape the rows into what the chart needs. Here we load <code>data/stores.csv</code> and roll the 12 stores up into 4 regions.</p>
+
+  <div id="status"></div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2 style="margin-top:0">1. Load and convert types</h2>
+      <pre class="code">const rows = await d3.csv("../../data/stores.csv", d => ({
+  store:   d.store,
+  region:  d.region,
+  revenue: +d.revenue,   // CSV values are strings: "4.8"
+  target:  +d.target     // the + turns them into numbers
+}));</pre>
+      <p style="font-size:14px">First row, as the browser reads it, and after conversion:</p>
+      <pre class="code" id="row-raw"></pre>
+    </div>
+    <div class="card">
+      <h2 style="margin-top:0">2. Reshape: group and sum</h2>
+      <pre class="code">const byRegion = d3.rollups(rows,
+    v => ({ revenue: d3.sum(v, d => d.revenue),
+            target:  d3.sum(v, d => d.target) }),
+    d => d.region)
+  .map(([region, s]) => ({ region, ...s }));</pre>
+      <table class="data" id="table"></table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0" id="chart-title">3. Draw: regional revenue against target</h2>
+    <div class="legend">
+      <span><span class="swatch" style="background:#2a78d6"></span>Revenue FY2026</span>
+      <span><span class="swatch" style="background:#1d1d1b;height:3px;vertical-align:3px"></span>Target</span>
+    </div>
+    <div id="chart" class="chart"></div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Why this example needs a local server</h2>
+    <p>Browsers block <code>d3.csv()</code> and <code>d3.json()</code> for pages opened straight from disk (<code>file://</code>).
+      Run a local server from the repository folder, for example <code>python3 -m http.server 8000</code> or VS Code's
+      <b>Live Server</b>, then open <code>http://localhost:8000/examples/07-loading-data/</code>. On GitHub Pages it just works.</p>
+    <p>Other useful loaders: <code>d3.json()</code>, <code>d3.tsv()</code>, and <code>d3.autoType</code> as a shortcut row converter.
+      Useful reshapers: <code>d3.group()</code>, <code>d3.rollup()</code>, <code>d3.sum()</code>, <code>d3.mean()</code>, <code>d3.bin()</code>.</p>
+  </div>
+
+  <nav class="pager"><a href="../06-interaction-and-transitions/">← 06 · Interaction and transitions</a><a href="../08-accessible-chart/">08 · Accessible chart →</a></nav>
+</main>
+<script src="../../assets/stores.js"></script>
+<script src="chart.js"></script>
+</body>
+</html>

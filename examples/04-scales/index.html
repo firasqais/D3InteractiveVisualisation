@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>04 · Scales · D3 Interactive Visualisation</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <div class="crumb"><a href="../../index.html">D3 Interactive Visualisation</a> / 04</div>
+  <h1>Big idea 3: scales</h1>
+  <p class="lead">A scale is a <b>function</b>. Give it a data value and it returns a pixel position, a width or a colour.
+    The <b>domain</b> is the data space you choose; the <b>range</b> is the pixel (or colour) space you have.
+    Pick the scale type from the data type.</p>
+
+  <div class="card">
+    <h2 style="margin-top:0"><code>d3.scaleLinear()</code> for quantities (revenue)</h2>
+    <div class="controls">
+      <label>Domain max ($M) <input type="range" id="lin-max" min="5" max="12" step="1" value="7"> <b id="lin-max-out"></b></label>
+      <label>Value ($M) <input type="range" id="lin-val" min="0" max="7" step="0.1" value="4.8"> <b id="lin-val-out"></b></label>
+    </div>
+    <div id="linear" class="chart"></div>
+    <pre class="code" id="lin-code"></pre>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0"><code>d3.scaleBand()</code> for categories laid out in slots (store names)</h2>
+    <div class="controls">
+      <label>Categories <input type="range" id="band-n" min="3" max="12" step="1" value="3"> <b id="band-n-out"></b></label>
+      <label>Range width (px) <input type="range" id="band-w" min="300" max="700" step="20" value="300"> <b id="band-w-out"></b></label>
+      <label>Padding <input type="range" id="band-p" min="0" max="0.8" step="0.05" value="0.2"> <b id="band-p-out"></b></label>
+    </div>
+    <div id="band" class="chart"></div>
+    <pre class="code" id="band-code"></pre>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0"><code>d3.scaleOrdinal()</code> for categories mapped to colours (regions)</h2>
+    <div class="controls">
+      <div class="group" id="ord-buttons">
+        <button data-scheme="regions" class="active">Distinct hues, one per region</button>
+        <button data-scheme="blues">Single-hue blues</button>
+        <button data-scheme="rainbow">12 hues, one per store</button>
+      </div>
+    </div>
+    <div id="ordinal" class="chart"></div>
+    <p id="ord-verdict"></p>
+    <pre class="code" id="ord-code"></pre>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Match the scale to the data type</h2>
+    <table class="data">
+      <thead><tr><th>Data</th><th>Type</th><th>Scale</th></tr></thead>
+      <tbody>
+        <tr><td>Revenue, target</td><td>Quantitative (ratio)</td><td><code>scaleLinear</code>, domain starting at 0 for bars</td></tr>
+        <tr><td>Store name on an axis</td><td>Nominal</td><td><code>scaleBand</code> (bars) or <code>scalePoint</code> (dots)</td></tr>
+        <tr><td>Region as a colour</td><td>Nominal</td><td><code>scaleOrdinal</code> with distinct hues</td></tr>
+        <tr><td>Satisfaction 1–5</td><td>Ordinal</td><td>Position, or a sequential (light→dark) colour</td></tr>
+        <tr><td>Circle size</td><td>Quantitative</td><td><code>scaleSqrt</code>, so <i>area</i> is proportional to the value</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <nav class="pager"><a href="../03-data-join/">← 03 · The data join</a><a href="../05-axes-and-margins/">05 · Axes and margins →</a></nav>
+</main>
+<script src="../../assets/stores.js"></script>
+<script src="chart.js"></script>
+</body>
+</html>

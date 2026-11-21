@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>08 · An accessible interactive chart · D3 Interactive Visualisation</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <style>
+    rect.bar { cursor: pointer; }
+    rect.bar:focus { outline: none; stroke: #1d1d1b; stroke-width: 3; }
+    #table-wrap[hidden] { display: none; }
+  </style>
+</head>
+<body>
+<main class="page">
+  <div class="crumb"><a href="../../index.html">D3 Interactive Visualisation</a> / 08</div>
+  <h1>An accessible interactive chart</h1>
+  <p class="lead">Interaction that needs a mouse shuts people out. This chart works with a keyboard and a screen reader,
+    names every colour, offers the same numbers as a table, and calms its motion for people who ask for less.</p>
+
+  <div class="card">
+    <div class="controls">
+      <div class="group" role="group" aria-label="Sort order">
+        <button id="sort-alpha" aria-pressed="true">A–Z</button>
+        <button id="sort-revenue" aria-pressed="false">Revenue, highest first</button>
+      </div>
+      <button id="toggle-table" aria-expanded="false" aria-controls="table-wrap">Show as table</button>
+    </div>
+    <div class="legend" id="legend" aria-hidden="true"></div>
+    <div id="chart" class="chart"></div>
+    <p style="font-size:13px;color:var(--ink-3)">Keyboard: press <kbd>Tab</kbd> to reach the bars, then <kbd>←</kbd> <kbd>→</kbd> to move between stores.</p>
+    <div id="table-wrap" hidden><table class="data" id="table"></table></div>
+    <p id="announce" class="sr-only" aria-live="polite"></p>
+  </div>
+  <div class="tooltip" id="tooltip" aria-hidden="true"></div>
+
+  <div class="card">
+    <h2 style="margin-top:0">The checklist this chart follows</h2>
+    <table class="data">
+      <thead><tr><th>Need</th><th>How it's done in <code>chart.js</code></th></tr></thead>
+      <tbody>
+        <tr><td>A text alternative</td><td><code>&lt;title&gt;</code> and <code>&lt;desc&gt;</code> inside the SVG, linked with <code>aria-labelledby</code>; the description is written from the data.</td></tr>
+        <tr><td>Keyboard access</td><td>Each bar gets <code>tabindex</code> and an <code>aria-label</code>; arrow keys move focus; focus shows the same tooltip as hover.</td></tr>
+        <tr><td>Colour is never the only cue</td><td>A legend names every region, and the tooltip and table repeat it in words.</td></tr>
+        <tr><td>The numbers without the picture</td><td>"Show as table" reveals a real <code>&lt;table&gt;</code> with the same rows.</td></tr>
+        <tr><td>Changes are announced</td><td>An <code>aria-live</code> region says what changed after sorting.</td></tr>
+        <tr><td>Less motion on request</td><td>Transitions drop to 0 ms when the user's system has <i>Reduce motion</i> turned on.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <nav class="pager"><a href="../07-loading-data/">← 07 · Loading data</a><a href="../../index.html#exercises">Exercises →</a></nav>
+</main>
+<script src="../../assets/stores.js"></script>
+<script src="chart.js"></script>
+</body>
+</html>

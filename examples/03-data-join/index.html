@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>03 · The data join · D3 Interactive Visualisation</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <div class="crumb"><a href="../../index.html">D3 Interactive Visualisation</a> / 03</div>
+  <h1>Big idea 2: the data join (enter, update, exit)</h1>
+  <p class="lead">When you hand D3 some data, it compares the <b>data</b> with the <b>elements already on screen</b> and
+    sorts everything into three groups. This is the idea the rest of D3 depends on, so take your time here.</p>
+
+  <div class="card">
+    <div class="controls">
+      <div class="group">
+        <button id="add">+ Add a store</button>
+        <button id="remove">Remove first</button>
+        <button id="values">New revenue values</button>
+        <button id="shuffle">Shuffle order</button>
+        <button id="reset">Reset</button>
+      </div>
+      <label>Key function
+        <select id="key">
+          <option value="name">d =&gt; d.name (match by name)</option>
+          <option value="index">none (match by index)</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="label">Enter (new data → new element)</div><div class="value" id="n-enter" style="color:#11805a">0</div></div>
+      <div class="stat"><div class="label">Update (data matched to element)</div><div class="value" id="n-update" style="color:#2a78d6">0</div></div>
+      <div class="stat"><div class="label">Exit (element left without data)</div><div class="value" id="n-exit" style="color:#b52f2f">0</div></div>
+    </div>
+
+    <div id="chart" class="chart"></div>
+    <p id="explain" class="note"></p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">The code that runs on every click</h2>
+    <pre class="code" id="code"></pre>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Try this</h2>
+    <ol>
+      <li>Press <b>+ Add a store</b>. Predict the counters first: you should get <b>1 · 4 · 0</b>.</li>
+      <li>Press <b>Remove first</b> with the key <i>by name</i>: Mumbai turns red and exits, the rest slide left (<b>0 · 4 · 1</b>).</li>
+      <li><b>Reset</b>, switch to <i>by index</i>, then <b>Remove first</b>. The <i>last</i> circle exits and every label shifts one place.
+        Right count, wrong element.</li>
+      <li>Switch back to <i>by name</i> and <b>Shuffle</b>: each circle glides to its new place. With <i>by index</i>, nothing moves;
+        the circles just swap labels and sizes.</li>
+    </ol>
+    <p class="note">Rule of thumb: whenever data can be added, removed or re-ordered, give <code>.data()</code> a key function.</p>
+  </div>
+
+  <nav class="pager"><a href="../02-selections/">← 02 · Selections</a><a href="../04-scales/">04 · Scales →</a></nav>
+</main>
+<script src="../../assets/stores.js"></script>
+<script src="chart.js"></script>
+</body>
+</html>

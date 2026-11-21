@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>05 · Axes and the margin convention · D3 Interactive Visualisation</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <style>
+    #chart svg { overflow: hidden; border: 1.5px dashed #8a8984; border-radius: 4px; }
+  </style>
+</head>
+<body>
+<main class="page">
+  <div class="crumb"><a href="../../index.html">D3 Interactive Visualisation</a> / 05</div>
+  <h1>Axes and the margin convention</h1>
+  <p class="lead">Every D3 chart starts the same way: define the margins, work out the inner width and height, and draw
+    everything inside a <code>&lt;g&gt;</code> shifted by the margins. Axes live in that margin. Then comes the honesty test:
+    D3 will happily draw a misleading chart if you tell it to.</p>
+
+  <div class="card">
+    <div class="controls">
+      <label>Left margin <input type="range" id="m-left" min="0" max="80" value="48"> <b id="m-left-out"></b></label>
+      <label>Bottom margin <input type="range" id="m-bottom" min="0" max="90" value="60"> <b id="m-bottom-out"></b></label>
+      <label><input type="checkbox" id="zero" checked> Start y at zero</label>
+      <label><input type="checkbox" id="nice" checked> <code>.nice()</code></label>
+    </div>
+    <div id="chart" class="chart"></div>
+    <div id="messages"></div>
+    <p style="font-size:13px;color:var(--ink-3)">Dashed border = the SVG. Shaded area = the plot group <code>g</code>, shifted by the margins.</p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">The code, as it stands now</h2>
+    <pre class="code" id="code"></pre>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">What to notice</h2>
+    <ul>
+      <li>Shrink the left margin and the y-axis labels fall off the edge of the SVG. Shrink the bottom margin and the store names are cut.</li>
+      <li>Untick <b>Start y at zero</b>. The code switches from <code>[0, d3.max(…)]</code> to <code>d3.extent(…)</code>, so the axis
+        starts at the smallest value. Dubai's bar now looks about <b>18 times</b> KL's, although the data ratio is 2.3. That's a
+        Lie Factor of about 8 (Tufte, 2001). One word in the code, <code>extent</code>, made the chart dishonest.</li>
+      <li>Untick <b>.nice()</b>: the axis stops at an awkward value with no labelled top tick. <code>.nice()</code> rounds the domain to clean tick values.</li>
+    </ul>
+    <p class="note">D3 draws whatever you tell it to. Honesty is your job.</p>
+  </div>
+
+  <nav class="pager"><a href="../04-scales/">← 04 · Scales</a><a href="../06-interaction-and-transitions/">06 · Interaction and transitions →</a></nav>
+</main>
+<script src="../../assets/stores.js"></script>
+<script src="chart.js"></script>
+</body>
+</html>

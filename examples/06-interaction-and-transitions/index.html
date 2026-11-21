@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>06 · Interaction and transitions · D3 Interactive Visualisation</title>
+  <link rel="stylesheet" href="../../assets/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+<main class="page">
+  <div class="crumb"><a href="../../index.html">D3 Interactive Visualisation</a> / 06</div>
+  <h1>Interaction and transitions</h1>
+  <p class="lead">Here is the secret of interactive D3: <b>interaction is just running the data join again with new data.</b>
+    Sorting is new order, same join. Filtering is fewer items, so some bars exit. Hover a bar for details on demand.</p>
+
+  <div class="card">
+    <div class="controls">
+      <span>Sort</span>
+      <div class="group" id="sort">
+        <button data-sort="alpha" class="active">A–Z</button>
+        <button data-sort="revenue">Revenue ▼</button>
+        <button data-sort="gap">% of target ▲</button>
+      </div>
+      <span>Region</span>
+      <div class="group" id="filter"></div>
+    </div>
+    <div class="controls">
+      <label>Duration
+        <select id="duration"><option>250</option><option selected>750</option><option>2000</option></select> ms
+      </label>
+      <label>Easing
+        <select id="ease">
+          <option value="easeCubic" selected>easeCubic</option>
+          <option value="easeLinear">easeLinear</option>
+          <option value="easeBounceOut">easeBounceOut</option>
+        </select>
+      </label>
+      <label>Key
+        <select id="key"><option value="store" selected>d =&gt; d.store</option><option value="index">none (index)</option></select>
+      </label>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div id="chart" class="chart"></div>
+  </div>
+  <div class="tooltip" id="tooltip" role="status" aria-live="polite"></div>
+
+  <div class="card">
+    <h2 style="margin-top:0">The update function</h2>
+    <p style="font-size:14px">Every button builds a new array (sorted or filtered) and calls <code>update(rows)</code>. That's the whole trick.</p>
+    <pre class="code">function update(rows) {
+  x.domain(rows.map(d => d.store));
+  const t = svg.transition().duration(750).ease(d3.easeCubic);
+
+  g.selectAll("rect.bar")
+    .data(rows, d => d.store)              // key: each store keeps its own bar
+    .join(
+      enter => enter.append("rect")
+          .attr("class", "bar")
+          .attr("x", d => x(d.store))
+          .attr("y", h).attr("height", 0)  // start flat on the baseline…
+          .attr("fill", d => colour(d.region)),
+      update => update,
+      exit => exit.transition(t)
+          .attr("y", h).attr("height", 0)  // …and leave the same way
+          .remove()
+    )
+    .transition(t)                         // enter + update move together
+      .attr("x", d => x(d.store))
+      .attr("width", x.bandwidth())
+      .attr("y", d => y(d.revenue))
+      .attr("height", d => h - y(d.revenue));
+
+  xAxis.transition(t).call(d3.axisBottom(x));
+}</pre>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Try this</h2>
+    <ol>
+      <li><b>Revenue ▼</b>: the bars glide to their new places. Because of the key, you can follow each store as it moves. Bostock (2012) calls this <b>object constancy</b>.</li>
+      <li>Region <b>GCC</b>: nine bars exit, three remain and widen. Back to <b>All</b>.</li>
+      <li>Set Key to <b>none (index)</b> and sort again: the bars stay put and morph into other stores. You can't tell who went where.</li>
+      <li>Set 2000 ms and <code>easeBounceOut</code>: fun, but it's a show, not an explanation. Keep transitions to about 250–750 ms (Heer &amp; Robertson, 2007).</li>
+    </ol>
+  </div>
+
+  <nav class="pager"><a href="../05-axes-and-margins/">← 05 · Axes and margins</a><a href="../07-loading-data/">07 · Loading data →</a></nav>
+</main>
+<script src="../../assets/stores.js"></script>
+<script src="chart.js"></script>
+</body>
+</html>

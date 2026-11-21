@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>D3 Interactive Visualisation</title>
+  <meta name="description" content="Learn D3.js v7 step by step: SVG, selections, the data join, scales, axes, interaction, data loading and accessibility.">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .hero { padding: 12px 0 8px; }
+    .hero h1 { font-size: 36px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 24px; }
+    .tag { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; color: var(--ink-2); background: var(--surface); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+    a.ex { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; transition: border-color 120ms, transform 120ms; }
+    a.ex:hover { border-color: var(--accent); transform: translateY(-1px); }
+    a.ex .num { font-size: 12px; font-weight: 650; color: var(--accent); letter-spacing: 0.04em; }
+    a.ex h3 { margin: 4px 0 6px; font-size: 17px; }
+    a.ex p { margin: 0; font-size: 14px; color: var(--ink-2); }
+    a.ex .part { font-size: 12px; color: var(--ink-3); margin-top: 10px; }
+    .section-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); margin: 32px 0 10px; }
+    ul.links { padding-left: 18px; }
+    ul.links li { margin: 4px 0; }
+  </style>
+</head>
+<body>
+<main class="page">
+  <div class="hero">
+    <h1>D3 Interactive Visualisation</h1>
+    <p class="lead">Learn <a href="https://d3js.org">D3.js</a> version 7 by building, one idea at a time: from a hand-written SVG
+      to an accessible, interactive chart. Every page is a working example you can open, read and change.</p>
+    <div class="tags">
+      <span class="tag">D3 v7</span><span class="tag">SVG</span><span class="tag">Data join</span>
+      <span class="tag">Scales &amp; axes</span><span class="tag">Transitions</span><span class="tag">Accessibility</span>
+      <span class="tag">No build step</span>
+    </div>
+  </div>
+
+  <div class="section-label">Part 1 · Foundations</div>
+  <div class="cards">
+    <a class="ex" href="examples/01-svg-anatomy/"><div class="num">01</div><h3>SVG anatomy</h3>
+      <p>What D3 actually draws. Rectangles, text, lines and groups, and why y grows downward.</p></a>
+    <a class="ex" href="examples/02-selections/"><div class="num">02</div><h3>Selections and chaining</h3>
+      <p>Select, append, set attributes, listen for events. Step through the code line by line.</p></a>
+    <a class="ex" href="examples/03-data-join/"><div class="num">03</div><h3>The data join</h3>
+      <p>Enter, update and exit, live. See why a key function decides which element leaves.</p></a>
+  </div>
+
+  <div class="section-label">Part 2 · Building a chart</div>
+  <div class="cards">
+    <a class="ex" href="examples/04-scales/"><div class="num">04</div><h3>Scales</h3>
+      <p>Linear, band and ordinal scales: functions from data to pixels and colours.</p></a>
+    <a class="ex" href="examples/05-axes-and-margins/"><div class="num">05</div><h3>Axes and margins</h3>
+      <p>The margin convention, and how one word in the code produces a Lie Factor of 8.</p></a>
+    <a class="ex" href="examples/06-interaction-and-transitions/"><div class="num">06</div><h3>Interaction and transitions</h3>
+      <p>Sort, filter and tooltips with one update function, and object constancy in motion.</p></a>
+  </div>
+
+  <div class="section-label">Part 3 · Going further</div>
+  <div class="cards">
+    <a class="ex" href="examples/07-loading-data/"><div class="num">07</div><h3>Loading and shaping data</h3>
+      <p>Load a CSV, convert the types, and roll stores up into regions with <code>d3.rollups</code>.</p></a>
+    <a class="ex" href="examples/08-accessible-chart/"><div class="num">08</div><h3>An accessible chart</h3>
+      <p>Keyboard focus, screen-reader labels, a table view and reduced motion.</p></a>
+  </div>
+
+  <div class="section-label" id="exercises">Practise</div>
+  <div class="cards">
+    <a class="ex" href="exercises/README.md"><div class="num">EXERCISES</div><h3>Predict, debug, build</h3>
+      <p>Predict-the-join rounds, ten classic bugs to spot, and a project brief.</p></a>
+    <a class="ex" href="exercises/starter.html"><div class="num">STARTER</div><h3>Starter chart</h3>
+      <p>A working bar chart with TODOs. Open it in your editor and build it up.</p></a>
+  </div>
+
+  <div class="section-label">Reference</div>
+  <ul class="links">
+    <li><a href="docs/d3-cheatsheet.md">D3 v7 cheat sheet</a>, including how to upgrade old v3–v5 tutorials</li>
+    <li><a href="docs/choosing-tools-and-interactions.md">Choosing the tool and the interaction</a></li>
+    <li><a href="docs/genai-and-d3.md">Using GenAI to write D3, safely</a></li>
+    <li><a href="docs/references.md">References and further reading</a></li>
+  </ul>
+
+  <p class="note" style="margin-top:32px">All SPJ Retail figures used in the examples are fictional and were created for teaching.</p>
+</main>
+<script>
+  // On GitHub Pages, Markdown files are published as HTML pages, so point the links there.
+  if (location.hostname.endsWith("github.io")) {
+    document.querySelectorAll('a[href$=".md"]').forEach((a) => {
+      const href = a.getAttribute("href");
+      a.setAttribute("href", href.endsWith("README.md") ? href.replace("README.md", "") : href.replace(/\.md$/, ".html"));
+    });
+  }
+</script>
+</body>
+</html>
