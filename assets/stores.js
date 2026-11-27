@@ -1,4 +1,4 @@
-// SPJ Retail FY2026 revenue vs target, in $M.
+// Meridian Retail FY2026 revenue vs target, in $M.
 // Fictional teaching data. The same rows live in data/stores.json and data/stores.csv.
 // Loaded as a plain <script> so every example also works when opened straight from disk.
 const STORES = [

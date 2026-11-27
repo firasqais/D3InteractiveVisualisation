@@ -78,7 +78,7 @@ D3 is loaded from the jsDelivr CDN, so you need an internet connection the first
 
 ## The data
 
-Twelve stores of a fictional retailer, SPJ Retail, across four regions, with FY2026 revenue and target in $M:
+Twelve stores of a fictional retailer, Meridian Retail, across four regions, with FY2026 revenue and target in $M:
 
 | store | region | revenue | target |
 |---|---|---|---|

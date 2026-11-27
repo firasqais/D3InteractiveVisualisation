@@ -25,4 +25,4 @@
 
 ## About the data
 
-All SPJ Retail figures are **fictional** and were created for teaching.
+All Meridian Retail figures are **fictional** and were created for teaching.

@@ -151,7 +151,7 @@ Common errors while you build:
 
 ## 4. Project: the Store Performance Explorer
 
-> The CEO of SPJ Retail wants one interactive chart for the budget meeting: *"Where are we missing target, and what should I do about it?"*
+> The CEO of Meridian Retail wants one interactive chart for the budget meeting: *"Where are we missing target, and what should I do about it?"*
 
 Build it on top of exercise 3. A strong project:
 

@@ -15,7 +15,7 @@ const label = (d) => `${d.store}, ${d.region}: $${d.revenue} million`;
 const svg = d3.select("#chart").append("svg")
   .attr("viewBox", [0, 0, W, H])
   .attr("aria-labelledby", "chart-title chart-desc");
-svg.append("title").attr("id", "chart-title").text("SPJ Retail FY2026 revenue by store, in millions of dollars");
+svg.append("title").attr("id", "chart-title").text("Meridian Retail FY2026 revenue by store, in millions of dollars");
 
 const ranked = STORES.slice().sort((a, b) => d3.descending(a.revenue, b.revenue));
 svg.append("desc").attr("id", "chart-desc").text(
